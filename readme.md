@@ -1,3 +1,9 @@
+# Run
+
+`docker compose up`
+
+Then, you can query the api through `localhost:3000`.
+
 # Framework choice
 
 I chose Express because it allows for greater flexibility and, also, I'm most familiar with this framework.

@@ -5,6 +5,7 @@ import {
   PrismaClientInitializationError,
   PrismaClientValidationError,
 } from '../../generated/prisma/internal/prismaNamespace'
+import { createClient, type RedisJSON } from 'redis'
 
 export class AppError extends Error {
   public status?: number
@@ -28,4 +29,36 @@ export const isPrismaError = (e: unknown) => {
     e instanceof PrismaClientInitializationError ||
     e instanceof PrismaClientValidationError
   )
+}
+
+const client = createClient({
+  url: 'redis://redis:6379',
+})
+
+client.connect()
+
+export const cache = async (key: string, getData: () => Promise<RedisJSON>) => {
+  const dataCached = await client.json.get(key)
+
+  if (dataCached) {
+    console.log(`cache hit for key ${key}`)
+    return dataCached
+  }
+
+  console.log(`cache miss for key ${key}, fetching data`)
+
+  try {
+    const data = await getData()
+
+    await client.json.set(key, '$', data)
+    await client.expire(key, 5)
+
+    return data
+  } catch (e) {
+    throw new AppError(
+      500,
+      'cache: something went wrong while fetching data and writing it to cache',
+      e
+    )
+  }
 }

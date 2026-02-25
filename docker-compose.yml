@@ -11,7 +11,7 @@ services:
     ports:
       - 5432:5432
     healthcheck:
-      test: ["CMD", "pg_isready"]
+      test: ['CMD', 'pg_isready']
 
   pgadmin:
     container_name: ap-education_pgadmin
@@ -36,6 +36,12 @@ services:
       - type: bind
         source: ./.env
         target: /usr/src/app/.env
+
+  redis:
+    container_name: ap-education_redis
+    image: redis:8.6.1
+    ports:
+      - 6379:6379
 
   api:
     container_name: ap-education_api

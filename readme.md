@@ -4,6 +4,22 @@
 
 Then, you can query the api through `localhost:3000`.
 
+## Run tests
+
+`npm run test`
+
+# Project structure
+
+The code is organized into _controllers_, _services_ and _middleware_.
+
+_services_ are responsible for business logic and, e.g., querying the database; _middleware_ is responsible, e.g., for validating the requests; _controllers_ map endpoints to services.
+
+# Integration
+
+For caching, I implemented the `cache` function which accepts a key and a data source function. It uses `redis` for storing the cached data.
+
+When called, it first checks the cache: if the data exists, it returns it; else, it fetches the data via the provided function and writes that data to the cache store.
+
 # Framework choice
 
 I chose Express because it allows for greater flexibility and, also, I'm most familiar with this framework.
@@ -53,3 +69,9 @@ when `id` doesn't exist, should respond with `404`
 ### `GET /students`
 
 `curl --verbose localhost:3000/students`
+
+## External
+
+### `GET /external/courses`
+
+`curl localhost:3000/external/courses`

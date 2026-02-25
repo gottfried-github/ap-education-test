@@ -1,4 +1,4 @@
-import { cache } from '../../common'
+import { cache } from '../../common/cache'
 
 const getCourses = async () => {
   const res = await fetch('https://fakestoreapi.com/products')

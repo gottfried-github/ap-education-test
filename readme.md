@@ -1,5 +1,7 @@
 # Run
 
+First, create an `.env` file and fill it up as per `.env.example`. Then, run:
+
 `docker compose up`
 
 Then, you can query the api through `localhost:3000`.
